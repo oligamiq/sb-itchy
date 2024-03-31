@@ -16,7 +16,11 @@
 use std::collections::HashMap;
 
 use crate::{
-    block::{BlockFieldBuilder, BlockInputBuilder, BlockNormalBuilder, BlockVarListBuilder}, func::{CustomFuncBuilder, CustomFuncCallBuilder, CustomFuncInputType}, opcode::StandardOpCode, prelude::{BlockBuilder, FieldKind}, stack::StackBuilder
+    block::{BlockFieldBuilder, BlockInputBuilder, BlockNormalBuilder, BlockVarListBuilder},
+    func::{CustomFuncBuilder, CustomFuncCallBuilder, CustomFuncInputType},
+    opcode::StandardOpCode,
+    prelude::{BlockBuilder, FieldKind},
+    stack::StackBuilder,
 };
 use sb_sbity::block::{BlockMutation, BlockMutationEnum};
 
@@ -1253,13 +1257,14 @@ pub fn define_custom_block<S: Into<String>>(args: Vec<CustomFuncInputType>) -> S
     custom_block.set_args(args);
 
     StackBuilder {
-        stack: vec![
-            BlockBuilder::Func(custom_block),
-        ]
+        stack: vec![BlockBuilder::Func(custom_block)],
     }
 }
 
-pub fn call_custom_block<S: Into<String>, T: Into<String>>(name: S, args: HashMap<T, Bib>) -> StackBuilder {
+pub fn call_custom_block<S: Into<String>, T: Into<String>>(
+    name: S,
+    args: HashMap<T, Bib>,
+) -> StackBuilder {
     let mut custom_func_call = CustomFuncCallBuilder::new();
     custom_func_call.set_name(name.into());
     for (k, v) in args {
@@ -1267,9 +1272,7 @@ pub fn call_custom_block<S: Into<String>, T: Into<String>>(name: S, args: HashMa
     }
 
     StackBuilder {
-        stack: vec![
-            BlockBuilder::FuncCall(custom_func_call),
-        ]
+        stack: vec![BlockBuilder::FuncCall(custom_func_call)],
     }
 }
 

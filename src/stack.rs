@@ -3,7 +3,9 @@ use std::collections::HashMap;
 use sb_sbity::{block::Block, comment::Comment};
 
 use crate::{
-    block::{BlockBuilder, BlockNormalBuilder, BlockVarListBuilder}, build_context::TargetContext, uid::Uid
+    block::{BlockBuilder, BlockNormalBuilder, BlockVarListBuilder},
+    build_context::TargetContext,
+    uid::Uid,
 };
 
 #[derive(Debug, Default, Clone, PartialEq)]
