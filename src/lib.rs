@@ -11,6 +11,7 @@ pub mod asset;
 pub mod block;
 pub mod comment;
 pub mod data;
+pub mod func;
 pub mod project;
 pub mod stack;
 pub mod target;

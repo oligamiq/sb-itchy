@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
 
+use parking_lot::Mutex;
 use sb_sbity::{
     asset::{Costume, Sound},
     block::Block,
@@ -11,7 +12,7 @@ use sb_sbity::{
     variable::Variable,
 };
 
-use crate::build_context::GlobalVarListContext;
+use crate::build_context::{CustomFuncTy, GlobalVarListContext};
 use crate::{
     asset::{CostumeBuilder, SoundBuilder},
     build_context::TargetContext,
@@ -36,6 +37,7 @@ pub struct TargetBuilder {
     pub current_costume: u64,
     pub layer_order:     u64,
     pub volume:          f64,
+    pub func_types:      HashMap<String, CustomFuncTy>,
 }
 
 impl TargetBuilder {
@@ -114,6 +116,7 @@ impl TargetBuilder {
             current_costume,
             layer_order,
             volume,
+            func_types,
         } = self;
         let variables: HashMap<String, Variable> = variables
             .into_iter()
@@ -156,6 +159,7 @@ impl TargetBuilder {
                             this_sprite_vars: &variable_ctx,
                             this_sprite_lists: &list_ctx,
                             all_broadcasts,
+                            custom_funcs: Arc::new(Mutex::new(func_types.clone())),
                         },
                         None => TargetContext {
                             global_vars: &variable_ctx,
@@ -163,6 +167,7 @@ impl TargetBuilder {
                             this_sprite_vars: &variable_ctx,
                             this_sprite_lists: &list_ctx,
                             all_broadcasts,
+                            custom_funcs: Arc::new(Mutex::new(func_types.clone())),
                         },
                     },
                 );
@@ -224,6 +229,7 @@ impl Default for TargetBuilder {
             current_costume: 0,
             layer_order:     0,
             volume:          100.,
+            func_types:      HashMap::default(),
         }
     }
 }

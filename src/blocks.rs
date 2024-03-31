@@ -16,6 +16,7 @@
 use crate::{
     block::{BlockFieldBuilder, BlockInputBuilder, BlockNormalBuilder, BlockVarListBuilder},
     opcode::StandardOpCode,
+    prelude::FieldKind,
     stack::StackBuilder,
 };
 use sb_sbity::block::{BlockMutation, BlockMutationEnum};
@@ -28,6 +29,7 @@ use sb_sbity::block::{BlockMutation, BlockMutationEnum};
 // Sensing
 // Sound
 // Data
+// My Blocks
 
 type Bfb = BlockFieldBuilder;
 type Bib = BlockInputBuilder;
@@ -1242,6 +1244,37 @@ pub fn hide_list(list: Bfb) -> StackBuilder {
     StackBuilder::start({
         let mut b = BlockNormalBuilder::new(StandardOpCode::data_hidelist);
         b.add_field("LIST", list);
+        b
+    })
+}
+
+// My Blocks ========================================================================
+// pub fn call_custom_block<S: Into<String>>(name: S) -> StackBuilder {
+//     StackBuilder::start({
+//         let mut b = BlockNormalBuilder::new(StandardOpCode::procedures_call);
+//         b.add_input()
+//         b
+//     })
+// }
+
+pub fn custom_block_var_boolean<S: Into<String>>(name: S) -> StackBuilder {
+    StackBuilder::start({
+        let mut b = BlockNormalBuilder::new(StandardOpCode::argument_reporter_boolean);
+        b.add_field(
+            "VALUE",
+            BlockFieldBuilder::new_with_kind(name.into(), FieldKind::NoRefMaybe),
+        );
+        b
+    })
+}
+
+pub fn custom_block_var_string_number<S: Into<String>>(name: S) -> StackBuilder {
+    StackBuilder::start({
+        let mut b = BlockNormalBuilder::new(StandardOpCode::argument_editor_string_number);
+        b.add_field(
+            "VALUE",
+            BlockFieldBuilder::new_with_kind(name.into(), FieldKind::NoRefMaybe),
+        );
         b
     })
 }

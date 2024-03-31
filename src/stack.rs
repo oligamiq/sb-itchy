@@ -51,6 +51,12 @@ impl StackBuilder {
             BlockBuilder::VarList(vl) => {
                 vl.set_pos(x, y);
             }
+            BlockBuilder::Func(vl) => {
+                vl.set_pos(x, y);
+            }
+            BlockBuilder::FuncCall(vl) => {
+                vl.set_pos(Some(x), Some(y));
+            }
         }
         self
     }
@@ -79,8 +85,12 @@ impl StackBuilder {
                 for block_builder2 in self_stack_iter {
                     let (mut block1, block1_uid) = previous_block;
                     let block2_uid = Uid::generate();
-                    let Block::Normal(mut block2) =
-                        block_builder2.build(&block2_uid, comment_buff, &mut stack_b, target_context) else {
+                    let Block::Normal(mut block2) = block_builder2.build(
+                        &block2_uid,
+                        comment_buff,
+                        &mut stack_b,
+                        target_context,
+                    ) else {
                         unreachable!("BlockVarList shouldn't exist here")
                     };
 

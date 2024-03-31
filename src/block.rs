@@ -10,7 +10,13 @@ use sb_sbity::{
     value::OpCode,
 };
 
-use crate::{build_context::TargetContext, comment::CommentBuilder, stack::StackBuilder, uid::Uid};
+use crate::{
+    build_context::TargetContext,
+    comment::CommentBuilder,
+    func::{CustomFuncBuilder, CustomFuncCallBuilder},
+    stack::StackBuilder,
+    uid::Uid,
+};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum StackOrValue {
@@ -107,7 +113,8 @@ impl BlockInputBuilder {
                             n.y = None;
                         }
                         Block::VarList(_) => {
-                            let Block::VarList(vl) = s_builded.remove(&first_block_uid).unwrap() else {
+                            let Block::VarList(vl) = s_builded.remove(&first_block_uid).unwrap()
+                            else {
                                 unreachable!()
                             };
                             let BlockVarListReporterTop { kind, name, id, .. } = vl;
@@ -268,7 +275,7 @@ impl BlockNormalBuilder {
             }
             None => None,
         };
-        
+
         BlockNormal {
             opcode,
             comment,
@@ -340,7 +347,8 @@ impl BlockFieldBuilder {
             FieldKind::SpriteList => target_context.this_sprite_lists,
             FieldKind::GlobalList => target_context.global_lists,
         }
-        .get(value_str).cloned()
+        .get(value_str)
+        .cloned()
         .unwrap_or_else(|| Uid::new("__unknown__"));
         BlockField::WithId {
             value,
@@ -466,7 +474,8 @@ impl BlockVarListBuilder {
             (ListOrVariable::List, VarListFrom::Global) => target_context.global_lists,
             (ListOrVariable::List, VarListFrom::Sprite) => target_context.this_sprite_lists,
         }
-        .get(&name).cloned()
+        .get(&name)
+        .cloned()
         .unwrap_or(Uid::new("__unknown__"));
         if let Some(comment) = comment {
             let comment_uid = Uid::generate();
@@ -474,7 +483,7 @@ impl BlockVarListBuilder {
             comment.block_id = Some(my_uid.clone().into_inner());
             comment_buff.insert(comment_uid, comment);
         }
-        
+
         BlockVarListReporterTop {
             kind,
             name,
@@ -488,6 +497,8 @@ impl BlockVarListBuilder {
 #[derive(Debug, Clone, PartialEq)]
 pub enum BlockBuilder {
     Normal(BlockNormalBuilder),
+    Func(CustomFuncBuilder),
+    FuncCall(CustomFuncCallBuilder),
     VarList(BlockVarListBuilder),
 }
 
@@ -504,9 +515,17 @@ impl BlockBuilder {
                 let b = n.build(my_uid, comment_buff, final_stack, target_context);
                 Block::Normal(b)
             }
+            BlockBuilder::Func(f) => {
+                let b = f.build(my_uid, comment_buff, final_stack, target_context);
+                Block::Normal(b)
+            }
             BlockBuilder::VarList(vl) => {
                 let b = vl.build(my_uid, comment_buff, target_context);
                 Block::VarList(b)
+            }
+            BlockBuilder::FuncCall(fc) => {
+                let b = fc.build(my_uid, comment_buff, final_stack, target_context);
+                Block::Normal(b)
             }
         }
     }
