@@ -28,16 +28,14 @@ pub struct CustomFuncBuilder {
 }
 
 impl CustomFuncBuilder {
-    pub fn new(args: Vec<CustomFuncInputType>, warp: bool) -> CustomFuncBuilder {
+    pub fn new() -> CustomFuncBuilder {
         CustomFuncBuilder {
-            args,
-            warp,
             ..Default::default()
         }
     }
 
-    pub fn add_input(&mut self, input: CustomFuncInputType) -> &mut Self {
-        self.args.push(input);
+    pub fn add_arg(&mut self, arg: CustomFuncInputType) -> &mut Self {
+        self.args.push(arg);
         self
     }
 
@@ -48,6 +46,11 @@ impl CustomFuncBuilder {
 
     pub fn set_args(&mut self, args: Vec<CustomFuncInputType>) -> &mut Self {
         self.args = args;
+        self
+    }
+
+    pub fn set_warp(&mut self, warp: bool) -> &mut Self {
+        self.warp = warp;
         self
     }
 
