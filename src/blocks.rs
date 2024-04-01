@@ -1252,7 +1252,7 @@ pub fn hide_list(list: Bfb) -> StackBuilder {
 }
 
 // My Blocks ========================================================================
-pub fn define_custom_block<S: Into<String>>(args: Vec<CustomFuncInputType>, warp: bool) -> StackBuilder {
+pub fn define_custom_block(args: Vec<CustomFuncInputType>, warp: bool) -> StackBuilder {
     let mut custom_block = CustomFuncBuilder::new();
     custom_block.set_args(args);
     custom_block.set_warp(warp);
