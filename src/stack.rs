@@ -79,8 +79,8 @@ impl StackBuilder {
         match first_block {
             Block::Normal(mut first_block) => {
                 first_block.top_level = true;
-                first_block.x = Some(0.into());
-                first_block.y = Some(0.into());
+                first_block.x = Some(first_block.x.unwrap_or_default());
+                first_block.y = Some(first_block.y.unwrap_or_default());
                 let mut previous_block = (first_block, first_block_uid.clone());
                 for block_builder2 in self_stack_iter {
                     let (mut block1, block1_uid) = previous_block;
