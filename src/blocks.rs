@@ -1298,3 +1298,24 @@ pub fn custom_block_var_string_number<S: Into<String>>(name: S) -> StackBuilder 
         b
     })
 }
+
+// Translate ========================================================================
+pub fn translate_to<S: Into<String>>(string: Bib, lang: S) -> StackBuilder {
+    StackBuilder::start({
+        let mut b = BlockNormalBuilder::new("translate_getTranslate");
+        b.add_input("WORDS", string);
+        b.add_input(
+            "LANGUAGE",
+            BlockInputBuilder::stack(StackBuilder::start({
+                let mut b = BlockNormalBuilder::new("translate_menu_languages");
+                b.add_field(
+                    "languages",
+                    BlockFieldBuilder::new_with_kind(lang.into(), FieldKind::NoRefMaybe),
+                );
+                b.set_shadow(true);
+                b
+            })),
+        );
+        b
+    })
+}
