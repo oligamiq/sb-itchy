@@ -1319,3 +1319,7 @@ pub fn translate_to<S: Into<String>>(string: Bib, lang: S) -> StackBuilder {
         b
     })
 }
+
+pub fn get_viewer_language() -> StackBuilder {
+    StackBuilder::start(BlockNormalBuilder::new("translate_getViewerLanguage"))
+}
