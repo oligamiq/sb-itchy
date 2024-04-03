@@ -113,7 +113,7 @@ impl CustomBlockBuilder {
         let mut define_block = BlockNormalBuilder::new(StandardOpCode::procedures_definition);
         define_block.add_input(
             "custom_block",
-            BlockInputBuilder::shadow_stack(StackBuilder::start(define_prototype)),
+            BlockInputBuilder::stack(StackBuilder::start(define_prototype)),
         );
 
         define_block.set_pos(x, y);
