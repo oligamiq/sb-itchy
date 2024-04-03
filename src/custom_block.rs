@@ -72,7 +72,8 @@ impl CustomBlockBuilder {
 
         let ty = target_context
             .custom_blocks
-            .get(&name)
+            .iter()
+            .find(|ty| ty.name() == name)
             .expect("CustomBlock not found")
             .clone();
 
@@ -511,7 +512,8 @@ impl CustomFuncCallBuilder {
 
         let ty = target_context
             .custom_blocks
-            .get(&name)
+            .iter()
+            .find(|ty| ty.name() == name)
             .expect("Custom function not found")
             .clone();
 

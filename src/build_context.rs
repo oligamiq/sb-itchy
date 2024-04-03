@@ -13,5 +13,5 @@ pub struct TargetContext<'a> {
     pub this_sprite_vars: &'a HashMap<String, Uid>,
     pub this_sprite_lists: &'a HashMap<String, Uid>,
     pub all_broadcasts: &'a HashMap<String, Uid>,
-    pub custom_blocks: &'a HashMap<String, CustomBlockTy>,
+    pub custom_blocks: &'a Vec<CustomBlockTy>,
 }

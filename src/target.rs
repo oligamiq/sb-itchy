@@ -36,7 +36,7 @@ pub struct TargetBuilder {
     pub current_costume: u64,
     pub layer_order:     u64,
     pub volume:          f64,
-    pub custom_blocks:   HashMap<String, CustomBlockTy>,
+    pub custom_blocks:   Vec<CustomBlockTy>,
 }
 
 impl TargetBuilder {
@@ -228,7 +228,7 @@ impl Default for TargetBuilder {
             current_costume: 0,
             layer_order:     0,
             volume:          100.,
-            custom_blocks:   HashMap::default(),
+            custom_blocks:   Vec::default(),
         }
     }
 }
