@@ -84,7 +84,7 @@ impl CustomBlockBuilder {
         for (arg_id, ty) in ty.vars() {
             define_prototype.add_input(
                 arg_id.into_inner(),
-                BlockInputBuilder::shadow_stack(StackBuilder::start({
+                BlockInputBuilder::stack(StackBuilder::start({
                     let mut b = BlockNormalBuilder::new(match &ty {
                         CustomBlockInputType::Text(_) => unreachable!(),
                         CustomBlockInputType::StringOrNumber(_) => {
