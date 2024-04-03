@@ -1288,7 +1288,7 @@ pub fn custom_block_var_boolean<S: Into<String>>(name: S) -> StackBuilder {
 
 pub fn custom_block_var_string_number<S: Into<String>>(name: S) -> StackBuilder {
     StackBuilder::start({
-        let mut b = BlockNormalBuilder::new(StandardOpCode::argument_editor_string_number);
+        let mut b = BlockNormalBuilder::new(StandardOpCode::argument_reporter_string_number);
         b.add_field(
             "VALUE",
             BlockFieldBuilder::new_with_kind(name.into(), FieldKind::NoRefMaybe),
