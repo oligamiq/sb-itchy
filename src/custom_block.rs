@@ -143,7 +143,7 @@ impl CustomBlockInputType {
 // pub type CustomBlockTy = (BlockMutationEnum, HashMap<String, Uid>);
 #[derive(Debug, Clone, PartialEq, Default)]
 pub struct CustomBlockTy {
-    ty: HashMap<Option<String>, CustomBlockInputType>,
+    ty: Vec<(Option<String>, CustomBlockInputType)>,
     warp: bool,
 }
 
@@ -158,7 +158,7 @@ impl CustomBlockTy {
                 };
                 (name, arg.clone())
             })
-            .collect::<HashMap<_, _>>();
+            .collect::<Vec<_>>();
         CustomBlockTy { ty, warp }
     }
 
