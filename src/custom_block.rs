@@ -2,9 +2,7 @@ use std::collections::HashMap;
 
 use sb_sbity::{
     block::{
-        Block,
-        BlockMutationEnum,
-        BlockNormal
+        Block, BlockMutation, BlockMutationEnum, BlockNormal
     },
     comment::Comment,
     value::ValueWithBool,
@@ -84,7 +82,7 @@ impl CustomBlockBuilder {
         for (arg_id, ty) in ty.vars() {
             define_prototype.add_input(
                 arg_id.into_inner(),
-                BlockInputBuilder::stack(StackBuilder::start({
+                BlockInputBuilder::shadow_stack(StackBuilder::start({
                     let mut b = BlockNormalBuilder::new(match &ty {
                         CustomBlockInputType::Text(_) => unreachable!(),
                         CustomBlockInputType::StringOrNumber(_) => {
@@ -106,11 +104,16 @@ impl CustomBlockBuilder {
                 })),
             );
         }
+        define_prototype.set_mutation(BlockMutation {
+            tag_name: "mutation".into(),
+            children: vec![],
+            mutation_enum: ty.define_mutation(),
+        });
 
         let mut define_block = BlockNormalBuilder::new(StandardOpCode::procedures_definition);
         define_block.add_input(
             "custom_block",
-            BlockInputBuilder::stack(StackBuilder::start(define_prototype)),
+            BlockInputBuilder::shadow_stack(StackBuilder::start(define_prototype)),
         );
 
         define_block.set_pos(x, y);
