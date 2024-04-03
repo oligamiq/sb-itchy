@@ -109,6 +109,7 @@ impl CustomBlockBuilder {
             children: vec![],
             mutation_enum: ty.define_mutation(),
         });
+        define_prototype.set_shadow(false);
 
         let mut define_block = BlockNormalBuilder::new(StandardOpCode::procedures_definition);
         define_block.add_input(
