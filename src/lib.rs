@@ -10,8 +10,8 @@
 pub mod asset;
 pub mod block;
 pub mod comment;
+pub mod custom_block;
 pub mod data;
-pub mod func;
 pub mod project;
 pub mod stack;
 pub mod target;
@@ -46,5 +46,6 @@ pub mod prelude {
         uid::Uid,
     };
     use super::*;
+    pub use custom_block::*;
     pub use sb_sbity::block::{BlockInputValue, ShadowInputType};
 }

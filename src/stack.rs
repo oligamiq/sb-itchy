@@ -51,10 +51,10 @@ impl StackBuilder {
             BlockBuilder::VarList(vl) => {
                 vl.set_pos(x, y);
             }
-            BlockBuilder::Func(vl) => {
+            BlockBuilder::CustomBlock(vl) => {
                 vl.set_pos(x, y);
             }
-            BlockBuilder::FuncCall(vl) => {
+            BlockBuilder::CustomBlockCall(vl) => {
                 vl.set_pos(Some(x), Some(y));
             }
         }

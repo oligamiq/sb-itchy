@@ -1,6 +1,5 @@
-use std::{collections::HashMap, sync::Arc};
+use std::collections::HashMap;
 
-use parking_lot::Mutex;
 use sb_sbity::{
     asset::{Costume, Sound},
     block::Block,
@@ -12,7 +11,6 @@ use sb_sbity::{
     variable::Variable,
 };
 
-use crate::build_context::{CustomFuncTy, GlobalVarListContext};
 use crate::{
     asset::{CostumeBuilder, SoundBuilder},
     build_context::TargetContext,
@@ -22,6 +20,7 @@ use crate::{
     stack::StackBuilder,
     uid::Uid,
 };
+use crate::{build_context::GlobalVarListContext, custom_block::CustomBlockTy};
 
 #[rustfmt::skip]
 #[derive(Debug, Clone, PartialEq)]
@@ -37,7 +36,7 @@ pub struct TargetBuilder {
     pub current_costume: u64,
     pub layer_order:     u64,
     pub volume:          f64,
-    pub func_types:      HashMap<String, CustomFuncTy>,
+    pub custom_blocks:   HashMap<String, CustomBlockTy>,
 }
 
 impl TargetBuilder {
@@ -116,7 +115,7 @@ impl TargetBuilder {
             current_costume,
             layer_order,
             volume,
-            func_types,
+            custom_blocks,
         } = self;
         let variables: HashMap<String, Variable> = variables
             .into_iter()
@@ -159,7 +158,7 @@ impl TargetBuilder {
                             this_sprite_vars: &variable_ctx,
                             this_sprite_lists: &list_ctx,
                             all_broadcasts,
-                            custom_funcs: Arc::new(Mutex::new(func_types.clone())),
+                            custom_blocks: &custom_blocks,
                         },
                         None => TargetContext {
                             global_vars: &variable_ctx,
@@ -167,7 +166,7 @@ impl TargetBuilder {
                             this_sprite_vars: &variable_ctx,
                             this_sprite_lists: &list_ctx,
                             all_broadcasts,
-                            custom_funcs: Arc::new(Mutex::new(func_types.clone())),
+                            custom_blocks: &custom_blocks,
                         },
                     },
                 );
@@ -229,7 +228,7 @@ impl Default for TargetBuilder {
             current_costume: 0,
             layer_order:     0,
             volume:          100.,
-            func_types:      HashMap::default(),
+            custom_blocks:   HashMap::default(),
         }
     }
 }
@@ -241,6 +240,7 @@ pub struct StageBuilder {
     pub tempo:                   i64,
     pub video_state:             VideoState,
     pub video_transparency:      i64,
+    custom_blocks:               HashMap<String, CustomBlockTy>,
     // Not availiable yet.
     // TODO: do this.
     // text_to_speech_language: (),
@@ -277,6 +277,7 @@ impl StageBuilder {
             tempo,
             video_state,
             video_transparency,
+            ..
         } = self;
         let (target, Some(global_var_list)) = target.build(res_buf, None, all_broadcasts) else {
             panic!("stage suppose to return what global var they had");
@@ -303,6 +304,7 @@ impl Default for StageBuilder {
             tempo: 60,
             video_state: VideoState::On,
             video_transparency: 50,
+            custom_blocks: HashMap::default(),
         }
     }
 }

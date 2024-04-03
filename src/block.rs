@@ -13,7 +13,7 @@ use sb_sbity::{
 use crate::{
     build_context::TargetContext,
     comment::CommentBuilder,
-    func::{CustomFuncBuilder, CustomFuncCallBuilder},
+    custom_block::{CustomBlockBuilder, CustomFuncCallBuilder},
     stack::StackBuilder,
     uid::Uid,
 };
@@ -70,6 +70,19 @@ impl BlockInputBuilder {
     pub fn stack(stack: StackBuilder) -> Self {
         let mut b = BlockInputBuilder::new();
         b.set_shadow(ShadowInputType::NoShadow)
+            .add_input(Some(StackOrValue::Stack(stack)));
+        b
+    }
+
+    /// Shortcut for
+    /// ```
+    /// BlockInputBuilder::new()
+    ///     .shadow(ShadowInputType::Shadow)
+    ///     .input(Some(StackOrValue::Stack(value)))
+    /// ```
+    pub fn shadow_stack(stack: StackBuilder) -> Self {
+        let mut b = BlockInputBuilder::new();
+        b.set_shadow(ShadowInputType::Shadow)
             .add_input(Some(StackOrValue::Stack(stack)));
         b
     }
@@ -231,7 +244,7 @@ impl BlockNormalBuilder {
         self
     }
 
-    fn build(
+    pub(crate) fn build(
         self,
         my_uid: &Uid,
         comment_buff: &mut HashMap<Uid, Comment>,
@@ -497,8 +510,8 @@ impl BlockVarListBuilder {
 #[derive(Debug, Clone, PartialEq)]
 pub enum BlockBuilder {
     Normal(BlockNormalBuilder),
-    Func(CustomFuncBuilder),
-    FuncCall(CustomFuncCallBuilder),
+    CustomBlock(CustomBlockBuilder),
+    CustomBlockCall(CustomFuncCallBuilder),
     VarList(BlockVarListBuilder),
 }
 
@@ -515,7 +528,7 @@ impl BlockBuilder {
                 let b = n.build(my_uid, comment_buff, final_stack, target_context);
                 Block::Normal(b)
             }
-            BlockBuilder::Func(f) => {
+            BlockBuilder::CustomBlock(f) => {
                 let b = f.build(my_uid, comment_buff, final_stack, target_context);
                 Block::Normal(b)
             }
@@ -523,7 +536,7 @@ impl BlockBuilder {
                 let b = vl.build(my_uid, comment_buff, target_context);
                 Block::VarList(b)
             }
-            BlockBuilder::FuncCall(fc) => {
+            BlockBuilder::CustomBlockCall(fc) => {
                 let b = fc.build(my_uid, comment_buff, final_stack, target_context);
                 Block::Normal(b)
             }

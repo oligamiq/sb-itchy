@@ -17,7 +17,7 @@ use std::collections::HashMap;
 
 use crate::{
     block::{BlockFieldBuilder, BlockInputBuilder, BlockNormalBuilder, BlockVarListBuilder},
-    func::{CustomFuncBuilder, CustomFuncCallBuilder, CustomFuncInputType},
+    custom_block::{CustomBlockBuilder, CustomFuncCallBuilder},
     opcode::StandardOpCode,
     prelude::{BlockBuilder, FieldKind},
     stack::StackBuilder,
@@ -1252,13 +1252,11 @@ pub fn hide_list(list: Bfb) -> StackBuilder {
 }
 
 // My Blocks ========================================================================
-pub fn define_custom_block(args: Vec<CustomFuncInputType>, warp: bool) -> StackBuilder {
-    let mut custom_block = CustomFuncBuilder::new();
-    custom_block.set_args(args);
-    custom_block.set_warp(warp);
+pub fn define_custom_block<S: Into<String>>(name: S) -> StackBuilder {
+    let custom_block = CustomBlockBuilder::new(name);
 
     StackBuilder {
-        stack: vec![BlockBuilder::Func(custom_block)],
+        stack: vec![BlockBuilder::CustomBlock(custom_block)],
     }
 }
 
@@ -1273,7 +1271,7 @@ pub fn call_custom_block<S: Into<String>, T: Into<String>>(
     }
 
     StackBuilder {
-        stack: vec![BlockBuilder::FuncCall(custom_func_call)],
+        stack: vec![BlockBuilder::CustomBlockCall(custom_func_call)],
     }
 }
 
@@ -1306,7 +1304,7 @@ pub fn translate_to<S: Into<String>>(string: Bib, lang: S) -> StackBuilder {
         b.add_input("WORDS", string);
         b.add_input(
             "LANGUAGE",
-            BlockInputBuilder::stack(StackBuilder::start({
+            BlockInputBuilder::shadow_stack(StackBuilder::start({
                 let mut b = BlockNormalBuilder::new("translate_menu_languages");
                 b.add_field(
                     "languages",

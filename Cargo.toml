@@ -11,7 +11,6 @@ md5 = "0.7.0"
 rand = "0.8.5"
 sb-sbity = { git = "https://github.com/rusty-scratch/sb-sbity" }
 serde_json = "1.0.91"
-parking_lot = "0.12"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.zip]
 default-features = false
