@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use sb_sbity::{
     block::{
-        Block, BlockMutation, BlockMutationEnum, BlockNormal
+        Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal
     },
     comment::Comment,
     value::ValueWithBool,
@@ -522,11 +522,30 @@ impl CustomFuncCallBuilder {
             .clone();
 
         let mut call_block = BlockNormalBuilder::new(StandardOpCode::procedures_call);
-        for (key, input) in args {
-            let arg_position = ty.argumentnames().iter().position(|i| i == &key).unwrap();
-            let arg_id = ty.argumentids()[arg_position].clone();
+        // for (key, input) in args {
+        //     let arg_position = ty.argumentnames().iter().position(|i| i == &key).unwrap();
+        //     let arg_id = ty.argumentids()[arg_position].clone();
 
-            call_block.add_input(arg_id.into_inner(), input);
+        //     call_block.add_input(arg_id.into_inner(), input);
+        // }
+        for (id, name) in ty.vars() {
+            let name = name.name();
+            let arg = args.iter().find(|(key, _)| key == &name);
+            let arg = match arg {
+                Some((_, arg)) => arg.clone(),
+                None => {
+                    let defaults = ty.argumentdefaults();
+                    let pos = ty.argumentnames().iter().position(|i| i == &name).unwrap();
+                    let default = defaults[pos].clone();
+
+                    BlockInputBuilder::value(match default {
+                        ValueWithBool::Text(value) => BlockInputValue::String { value: value.into() },
+                        ValueWithBool::Bool(value) => BlockInputValue::String { value: value.to_string().into() },
+                        ValueWithBool::Number(value) => BlockInputValue::Number { value: value.into() },
+                    })
+                }
+            };
+            call_block.add_input(id.into_inner(), arg);
         }
 
         call_block.set_pos(x, y);
