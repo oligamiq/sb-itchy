@@ -207,31 +207,31 @@ impl CustomBlockTy {
         proccode.unwrap_or_default()
     }
 
-    pub fn vars(&self) -> HashMap<Uid, CustomBlockInputType> {
+    pub fn vars(&self) -> Vec<(Uid, CustomBlockInputType)> {
         self.ty
             .iter()
             .filter_map(|(name, ty)| match name {
                 Some(name) => Some((Uid::new(name.clone()), ty.clone())),
                 None => None,
             })
-            .collect::<HashMap<_, _>>()
+            .collect::<Vec<_>>()
     }
 
     pub fn argumentids(&self) -> Vec<Uid> {
         self.vars()
-            .keys()
-            .map(|i| i.clone())
+        .iter()
+            .map(|(i, _)| i.clone())
             .collect::<Vec<_>>()
     }
 
     pub fn argumentnames(&self) -> Vec<String> {
-        self.vars().values().map(|i| i.name()).collect::<Vec<_>>()
+        self.vars().iter().map(|(_, i)| i.name()).collect::<Vec<_>>()
     }
 
     pub fn argumentdefaults(&self) -> Vec<ValueWithBool> {
         self.vars()
-            .values()
-            .map(|i| match i {
+            .iter()
+            .map(|(_, i)| match i {
                 CustomBlockInputType::Text(_) => unreachable!(),
                 CustomBlockInputType::StringOrNumber(_) => ValueWithBool::Text("".into()),
                 CustomBlockInputType::Boolean(_) => ValueWithBool::Bool(false),
@@ -447,7 +447,7 @@ impl CustomBlockTy {
 pub struct CustomFuncCallBuilder {
     name: String,
     comment: Option<CommentBuilder>,
-    args: HashMap<String, BlockInputBuilder>,
+    args: Vec<(String, BlockInputBuilder)>,
     x: Option<f64>,
     y: Option<f64>,
 }
@@ -460,7 +460,7 @@ impl CustomFuncCallBuilder {
     }
 
     pub fn add_input<K: Into<String>>(&mut self, key: K, input: BlockInputBuilder) -> &mut Self {
-        self.args.insert(key.into(), input);
+        self.args.push((key.into(), input));
         self
     }
 
@@ -469,7 +469,7 @@ impl CustomFuncCallBuilder {
         self
     }
 
-    pub fn set_args(&mut self, args: HashMap<String, BlockInputBuilder>) -> &mut Self {
+    pub fn set_args(&mut self, args: Vec<(String, BlockInputBuilder)>) -> &mut Self {
         self.args = args;
         self
     }
