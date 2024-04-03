@@ -533,6 +533,12 @@ impl CustomFuncCallBuilder {
 
         call_block.set_comment(comment);
 
+        call_block.set_mutation(BlockMutation {
+            tag_name: "mutation".into(),
+            children: vec![],
+            mutation_enum: ty.call_mutation(),
+        });
+
         let block = call_block.build(my_uid, comment_buff, final_stack, target_context);
 
         block
