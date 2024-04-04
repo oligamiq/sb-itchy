@@ -1159,10 +1159,10 @@ pub fn hide_var(var: Bfb) -> StackBuilder {
     })
 }
 
-pub fn add_to_list(item: Bib) -> StackBuilder {
+pub fn add_to_list(list: Bfb, item: Bib) -> StackBuilder {
     StackBuilder::start({
         let mut b = BlockNormalBuilder::new(StandardOpCode::data_addtolist);
-        b.add_input("ITEM", item);
+        b.add_input("ITEM", item).add_field("LIST", list);
         b
     })
 }
