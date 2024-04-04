@@ -1213,7 +1213,7 @@ pub fn item_in_list(list: Bfb, idx: Bib) -> StackBuilder {
 
 pub fn count_of_item_in_list(list: Bfb, item: Bib) -> StackBuilder {
     StackBuilder::start({
-        let mut b = BlockNormalBuilder::new(StandardOpCode::data_itemoflist);
+        let mut b = BlockNormalBuilder::new(StandardOpCode::data_itemnumoflist);
         b.add_input("ITEM", item).add_field("LIST", list);
         b
     })
