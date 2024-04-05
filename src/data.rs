@@ -1,5 +1,5 @@
 use crate::uid::Uid;
-use sb_sbity::{list::List, value::Value, variable::Variable};
+use sb_sbity::{list::List, value::{Value, ValueWithBool}, variable::Variable};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct VariableBuilder {
@@ -50,11 +50,11 @@ impl VariableBuilder {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ListBuilder {
-    pub values: Vec<Value>,
+    pub values: Vec<ValueWithBool>,
 }
 
 impl ListBuilder {
-    pub fn new(values: Vec<Value>) -> ListBuilder {
+    pub fn new(values: Vec<ValueWithBool>) -> ListBuilder {
         ListBuilder { values }
     }
 
