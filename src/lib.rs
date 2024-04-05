@@ -7,9 +7,6 @@
 //!
 //! Feel free to ask in github discussion. I will make sure to answer all of you questions if no one do so!
 
-#[cfg(feature = "oligamiq")]
-use sb_sbity_oligamiq as sb_sbity;
-
 pub mod asset;
 pub mod block;
 pub mod comment;

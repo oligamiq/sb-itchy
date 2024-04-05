@@ -1,20 +1,16 @@
 use std::collections::HashMap;
 
+<<<<<<< HEAD
 #[cfg(feature = "oligamiq")]
 use sb_sbity_oligamiq as sb_sbity;
 
 #[cfg(not(feature = "oligamiq"))]
+=======
+>>>>>>> parent of 390ceff (add oligamq flag)
 use sb_sbity::{
     block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
     comment::Comment,
     value::ValueWithBool,
-};
-
-#[cfg(feature = "oligamiq")]
-use sb_sbity::{
-    block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
-    comment::Comment,
-    value::Value as ValueWithBool,
 };
 
 use crate::{

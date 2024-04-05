@@ -22,10 +22,6 @@ use crate::{
     prelude::{BlockBuilder, FieldKind},
     stack::StackBuilder,
 };
-
-#[cfg(feature = "oligamiq")]
-use sb_sbity_oligamiq as sb_sbity;
-
 use sb_sbity::block::{BlockMutation, BlockMutationEnum};
 
 // Control
