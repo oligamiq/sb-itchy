@@ -110,4 +110,19 @@ impl StackBuilder {
             }
         }
     }
+
+    pub fn calc_block_height(&self, data: &BlockHeightData, is_input: bool) -> f64 {
+        self.stack.iter().fold(0.0, |acc, block| {
+            acc + block.calc_block_height(data, is_input)
+        })
+    }
+}
+
+pub struct BlockHeightData {
+    pub input_block_height: f64,
+    pub input_block_nest_height: f64,
+    pub block_height: f64,
+    pub block_nest_height: f64,
+    pub custom_block_height: f64,
+    pub event_block_height: f64,
 }

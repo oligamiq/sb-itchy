@@ -451,7 +451,7 @@ impl CustomBlockTy {
 pub struct CustomFuncCallBuilder {
     name: String,
     comment: Option<CommentBuilder>,
-    args: Vec<(String, BlockInputBuilder)>,
+    pub(crate) args: Vec<(String, BlockInputBuilder)>,
     x: Option<f64>,
     y: Option<f64>,
 }

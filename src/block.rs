@@ -542,4 +542,80 @@ impl BlockBuilder {
             }
         }
     }
+
+    pub fn calc_block_height(&self, data: &crate::stack::BlockHeightData, is_input: bool) -> f64 {
+        match self {
+            BlockBuilder::Normal(n) => {
+                let mut height = if is_input {
+                    0.
+                } else {
+                    let flag_opcodes = |opcode: &OpCode| -> bool {
+                        if opcode == "control_start_as_clone" {
+                            return true;
+                        }
+                        if opcode.starts_with("event_when") {
+                            return true;
+                        }
+                        return false;
+                    };
+
+                    if flag_opcodes(&n.opcode) {
+                        return data.event_block_height;
+                    }
+                    data.block_height
+                };
+
+                for (code, input) in &n.inputs {
+                    if code.starts_with("SUBSTACK") {
+                        height += data.block_nest_height;
+                        for value in &input.values {
+                            if let Some(StackOrValue::Stack(stack)) = value {
+                                height += stack.calc_block_height(data, false);
+                            }
+                        }
+                    } else {
+                        let mut heights = Vec::new();
+                        let mut is_value = true;
+                        for value in &input.values {
+                            if let Some(StackOrValue::Stack(stack)) = value {
+                                heights.push(stack.calc_block_height(data, true));
+                                is_value = false;
+                            }
+                        }
+                        if is_value {
+                            if is_input {
+                                height += data.input_block_height;
+                            }
+                        } else {
+                            if is_input {
+                                height += data.input_block_nest_height;
+                            }
+                            height += heights.into_iter().fold(0., |acc, h| if acc > h { acc } else { h });
+                        }
+                    }
+                }
+
+                height
+            }
+            BlockBuilder::CustomBlock(_) => data.custom_block_height,
+            BlockBuilder::CustomBlockCall(c) => {
+                let mut height = data.block_height;
+                let mut heights = Vec::new();
+                let mut is_value = true;
+                for (_, input) in &c.args {
+                    for value in &input.values {
+                        if let Some(StackOrValue::Stack(stack)) = value {
+                            heights.push(stack.calc_block_height(data, true));
+                            is_value = false;
+                        }
+                    }
+                }
+                if !is_value {
+                    height += heights.into_iter().fold(0., |acc, h| if acc > h { acc } else { h });
+                }
+                height
+            },
+            BlockBuilder::VarList(_) => data.input_block_height,
+        }
+    }
 }
