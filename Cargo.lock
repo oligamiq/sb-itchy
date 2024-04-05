@@ -187,7 +187,7 @@ dependencies = [
 [[package]]
 name = "sb-sbity"
 version = "0.6.0"
-source = "git+https://github.com/rusty-scratch/sb-sbity#00f1feacaec0985535d7326861dbd36dbe137478"
+source = "git+https://github.com/oligamiq/sb-sbity#2a000048babcfb55c81c4e7b48267eac4af612a1"
 dependencies = [
  "serde",
  "serde_json",
