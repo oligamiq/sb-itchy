@@ -187,7 +187,7 @@ dependencies = [
 [[package]]
 name = "sb-sbity"
 version = "0.6.0"
-source = "git+https://github.com/oligamiq/sb-sbity#8e22ef00283101003768f81556d63696f3690586"
+source = "git+https://github.com/oligamiq/sb-sbity#282aad344ec55025d2696ac5c820781b8e415f1a"
 dependencies = [
  "serde",
  "serde_json",
