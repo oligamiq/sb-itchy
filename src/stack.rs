@@ -127,3 +127,17 @@ pub struct BlockHeightData {
     pub custom_block_height: f64,
     pub event_block_height: f64,
 }
+
+impl Default for BlockHeightData {
+    fn default() -> Self {
+        BlockHeightData {
+            input_block_height: 80.,
+            input_block_nest_height: 16.,
+            block_height: 96.,
+            block_nest_height: 64.,
+            block_bump: 16.,
+            custom_block_height: 184.,
+            event_block_height: 146.,
+        }
+    }
+}
