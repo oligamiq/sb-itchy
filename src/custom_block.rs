@@ -1,9 +1,7 @@
 use std::collections::HashMap;
 
 use sb_sbity::{
-    block::{
-        Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal
-    },
+    block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
     comment::Comment,
     value::ValueWithBool,
 };
@@ -176,7 +174,11 @@ impl CustomBlockTy {
     pub fn call_mutation(&self) -> BlockMutationEnum {
         BlockMutationEnum::ProceduresCall {
             proccode: self.proccode(),
-            argumentids: self.argumentids().iter().map(|i| i.clone().into_inner()).collect(),
+            argumentids: self
+                .argumentids()
+                .iter()
+                .map(|i| i.clone().into_inner())
+                .collect(),
             warp: Some(self.warp),
         }
     }
@@ -184,7 +186,11 @@ impl CustomBlockTy {
     pub fn define_mutation(&self) -> BlockMutationEnum {
         BlockMutationEnum::ProceduresPrototype {
             proccode: self.proccode(),
-            argumentids: self.argumentids().iter().map(|i| i.clone().into_inner()).collect(),
+            argumentids: self
+                .argumentids()
+                .iter()
+                .map(|i| i.clone().into_inner())
+                .collect(),
             argumentnames: self.argumentnames(),
             argumentdefaults: self.argumentdefaults(),
             warp: Some(self.warp),
@@ -223,13 +229,16 @@ impl CustomBlockTy {
 
     pub fn argumentids(&self) -> Vec<Uid> {
         self.vars()
-        .iter()
+            .iter()
             .map(|(i, _)| i.clone())
             .collect::<Vec<_>>()
     }
 
     pub fn argumentnames(&self) -> Vec<String> {
-        self.vars().iter().map(|(_, i)| i.name()).collect::<Vec<_>>()
+        self.vars()
+            .iter()
+            .map(|(_, i)| i.name())
+            .collect::<Vec<_>>()
     }
 
     pub fn argumentdefaults(&self) -> Vec<ValueWithBool> {
@@ -539,8 +548,12 @@ impl CustomFuncCallBuilder {
                     let default = defaults[pos].clone();
 
                     BlockInputBuilder::value(match default {
-                        ValueWithBool::Text(value) => BlockInputValue::String { value: value.into() },
-                        ValueWithBool::Number(value) => BlockInputValue::Number { value: value.into() },
+                        ValueWithBool::Text(value) => BlockInputValue::String {
+                            value: value.into(),
+                        },
+                        ValueWithBool::Number(value) => BlockInputValue::Number {
+                            value: value.into(),
+                        },
                         ValueWithBool::Bool(_) => continue,
                     })
                 }
