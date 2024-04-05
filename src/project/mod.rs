@@ -5,6 +5,10 @@ use crate::{
     target::{SpriteBuilder, StageBuilder},
     uid::Uid,
 };
+
+#[cfg(feature = "oligamiq")]
+use sb_sbity_oligamiq as sb_sbity;
+
 use sb_sbity::{
     monitor::Monitor,
     project::{Meta, Project},

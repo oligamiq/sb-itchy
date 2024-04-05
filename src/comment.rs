@@ -1,4 +1,8 @@
 use crate::uid::Uid;
+
+#[cfg(feature = "oligamiq")]
+use sb_sbity_oligamiq as sb_sbity;
+
 use sb_sbity::comment::Comment;
 
 #[rustfmt::skip]

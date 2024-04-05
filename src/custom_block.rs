@@ -1,9 +1,20 @@
 use std::collections::HashMap;
 
+#[cfg(feature = "oligamiq")]
+use sb_sbity_oligamiq as sb_sbity;
+
+#[cfg(feature = "normal")]
 use sb_sbity::{
     block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
     comment::Comment,
     value::ValueWithBool,
+};
+
+#[cfg(feature = "oligamiq")]
+use sb_sbity::{
+    block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
+    comment::Comment,
+    value::Value as ValueWithBool,
 };
 
 use crate::{

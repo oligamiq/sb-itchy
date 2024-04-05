@@ -6,10 +6,14 @@ authors = ["Multirious"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = ["normal"]
+normal = ["dep:sb-sbity"]
+oligamiq = ["dep:sb-sbity-oligamiq"]
+
 [dependencies]
 md5 = "0.7.0"
 rand = "0.8.5"
-sb-sbity = { git = "https://github.com/rusty-scratch/sb-sbity" }
 serde_json = "1.0.91"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.zip]
@@ -20,3 +24,12 @@ features = ["deflate"]
 [target.'cfg(target_arch = "wasm32")'.dependencies.getrandom]
 version = "0.2"
 features = ["js"]
+
+[dependencies.sb-sbity]
+git = "https://github.com/rusty-scratch/sb-sbity"
+optional = true
+
+[dependencies.sb-sbity-oligamiq]
+git = "https://github.com/oligamiq/sb-sbity"
+package = "sb-sbity"
+optional = true

@@ -8,6 +8,8 @@
 
 #![allow(unused)]
 
+#[cfg(feature = "oligamiq")]
+use sb_sbity_oligamiq as sb_sbity;
 use sb_sbity::value::OpCode;
 
 #[allow(non_camel_case_types)]

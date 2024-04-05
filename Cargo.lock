@@ -179,9 +179,21 @@ dependencies = [
  "getrandom",
  "md5",
  "rand",
- "sb-sbity",
+ "sb-sbity 0.6.0 (git+https://github.com/oligamiq/sb-sbity)",
+ "sb-sbity 0.6.0 (git+https://github.com/rusty-scratch/sb-sbity)",
  "serde_json",
  "zip",
+]
+
+[[package]]
+name = "sb-sbity"
+version = "0.6.0"
+source = "git+https://github.com/oligamiq/sb-sbity#2a000048babcfb55c81c4e7b48267eac4af612a1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "serde_tuple",
 ]
 
 [[package]]

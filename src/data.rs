@@ -1,4 +1,8 @@
 use crate::uid::Uid;
+
+#[cfg(feature = "oligamiq")]
+use sb_sbity_oligamiq as sb_sbity;
+
 use sb_sbity::{list::List, value::Value, variable::Variable};
 
 #[derive(Debug, Clone, PartialEq)]
