@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use sb_sbity::{
     block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
     comment::Comment,
-    value::Value as ValueWithBool,
+    value::ValueWithBool,
 };
 
 use crate::{
