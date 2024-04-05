@@ -305,7 +305,7 @@ pub fn next_costume() -> StackBuilder {
 
 /// <br/>
 /// Accepts:
-///  - Costume name
+///  - Backdrop name
 pub fn switch_backdrop_to(backdrop: Bib) -> StackBuilder {
     StackBuilder::start({
         let mut b = BlockNormalBuilder::new(StandardOpCode::looks_switchbackdropto);
@@ -626,16 +626,16 @@ pub fn set_rotation_style(style: Bfb) -> StackBuilder {
     })
 }
 
-pub fn direction() -> StackBuilder {
-    StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::motion_direction))
+pub fn x_position() -> StackBuilder {
+    StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::motion_xposition))
 }
 
 pub fn y_position() -> StackBuilder {
     StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::motion_yposition))
 }
 
-pub fn x_position() -> StackBuilder {
-    StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::motion_xposition))
+pub fn direction() -> StackBuilder {
+    StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::motion_direction))
 }
 
 // Operators ===================================================================
@@ -924,6 +924,10 @@ pub fn mouse_down() -> StackBuilder {
 
 pub fn mouse_x() -> StackBuilder {
     StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::sensing_mousex))
+}
+
+pub fn mouse_y() -> StackBuilder {
+    StackBuilder::start(BlockNormalBuilder::new(StandardOpCode::sensing_mousey))
 }
 
 /// <br/>
