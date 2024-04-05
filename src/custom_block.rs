@@ -3,7 +3,7 @@ use std::collections::HashMap;
 #[cfg(feature = "oligamiq")]
 use sb_sbity_oligamiq as sb_sbity;
 
-#[cfg(feature = "normal")]
+#[cfg(not(feature = "oligamiq"))]
 use sb_sbity::{
     block::{Block, BlockInputValue, BlockMutation, BlockMutationEnum, BlockNormal},
     comment::Comment,
