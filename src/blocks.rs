@@ -721,7 +721,7 @@ pub fn or(a: Bib, b: Bib) -> StackBuilder {
 
 pub fn not(val: Bib) -> StackBuilder {
     StackBuilder::start({
-        let mut b = BlockNormalBuilder::new(StandardOpCode::operator_or);
+        let mut b = BlockNormalBuilder::new(StandardOpCode::operator_not);
         b.add_input("OPERAND", val);
         b
     })
